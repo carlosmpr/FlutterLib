@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'src/people.dart';
 import 'src/widgets/person_detail.dart';
 
+//
 void main() {
   runApp(const MyApp());
 }
