@@ -39,12 +39,33 @@ class Home extends StatelessWidget {
   }
 }
 
-class WideLayout extends StatelessWidget {
-  const WideLayout({Key? key}) : super(key: key);
+class WideLayout extends StatefulWidget {
+  const WideLayout();
 
   @override
+  State<WideLayout> createState() => _WideLayoutState();
+}
+
+class _WideLayoutState extends State<WideLayout> {
+  Person _person = Person('Jhon', 'Doe', 'dfdf');
+  @override
   Widget build(BuildContext context) {
-    return Container();
+    return Row(
+      children: [
+        Expanded(
+          child: PeopleList(
+            onPersonTap: (person) => setState(() {
+              _person = person;
+            }),
+          ),
+          flex: 2,
+        ),
+        Expanded(
+          child: _person == null ? Placeholder() : PersonDetail(_person),
+          flex: 3,
+        ),
+      ],
+    );
   }
 }
 
@@ -54,15 +75,22 @@ class NarrowLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: PeopleList(),
+      child: PeopleList(
+        onPersonTap: (person) => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => Scaffold(
+              appBar: AppBar(
+                title: const Text('Great'),
+              ),
+              body: PersonDetail(person)),
+        )),
+      ),
     );
   }
 }
 
 class PeopleList extends StatelessWidget {
-  const PeopleList({
-    Key? key,
-  }) : super(key: key);
+  final void Function(Person) onPersonTap;
+  const PeopleList({required this.onPersonTap});
 
   @override
   Widget build(BuildContext context) {
@@ -70,15 +98,9 @@ class PeopleList extends StatelessWidget {
       children: [
         for (var person in people)
           ListTile(
-            leading: Image.network(person.picture),
-            title: Text(person.name),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PersonDetail(person)),
-              );
-            },
-          )
+              leading: Image.network(person.picture),
+              title: Text(person.name),
+              onTap: () => onPersonTap(person))
       ],
     );
   }

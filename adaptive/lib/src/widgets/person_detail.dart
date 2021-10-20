@@ -6,13 +6,10 @@ class PersonDetail extends StatelessWidget {
   const PersonDetail(this.person);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text(person.name), Text(person.phone)],
-        ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [Text(person.name), Text(person.phone)],
       ),
     );
   }
